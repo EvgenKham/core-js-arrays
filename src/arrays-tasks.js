@@ -449,8 +449,15 @@ function getIndicesOfOddNumbers(numbers) {
  *    getHexRGBValues([ 0, 255, 16777215]) => [ '#000000', '#0000FF', '#FFFFFF' ]
  *    getHexRGBValues([]) => []
  */
-function getHexRGBValues(/* arr */) {
-  throw new Error('Not implemented');
+function getHexRGBValues(arr) {
+  return arr.map((num) => {
+    if (num < 0 || num > 16777215) {
+      return undefined;
+    }
+    const hex = num.toString(16).padStart(6, '0');
+
+    return `#${hex.toUpperCase()}`;
+  });
 }
 
 /**
@@ -498,8 +505,28 @@ function findCommonElements(arr1, arr2) {
  *    findLongestIncreasingSubsequence([3, 10, 2, 1, 20]) => longest is [3, 10] and [1, 20] => 2
  *    findLongestIncreasingSubsequence([50, 3, 10, 7, 40, 80]) => longest is [7, 40, 80] => 3
  */
-function findLongestIncreasingSubsequence(/* nums */) {
-  throw new Error('Not implemented');
+function findLongestIncreasingSubsequence(nums) {
+  let count = 1;
+  let max = 1;
+
+  nums.map((item, index, arr) => {
+    if (item < arr[index + 1] && arr[index + 1]) {
+      if (count === 0) {
+        count += 1;
+        max = max < count ? (max += 1) : max;
+      } else {
+        count += 1;
+        max += 1;
+      }
+    } else if (!arr[index + 1]) {
+      count += 1;
+      max = max < count ? (max += 1) : max;
+    } else {
+      count = 0;
+    }
+    return item;
+  });
+  return max;
 }
 
 /**
@@ -535,8 +562,10 @@ function propagateItemsByPositionIndex(arr) {
  *    shiftArray(['a', 'b', 'c', 'd'], -1) => ['b', 'c', 'd', 'a']
  *    shiftArray([10, 20, 30, 40, 50], -3) => [40, 50, 10, 20, 30]
  */
-function shiftArray(/* arr, n */) {
-  throw new Error('Not implemented');
+function shiftArray(arr, n) {
+  return n > 0
+    ? arr.splice(-n).concat(arr)
+    : arr.concat(arr.splice(0, Math.abs(n)));
 }
 
 /**
